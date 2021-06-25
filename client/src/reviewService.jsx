@@ -97,7 +97,6 @@ class ReviewService extends React.Component {
         currentSearchTerm: term,
         displayedReviews: filteredReviews.slice(0, 12)
       });
-      // console.log(`Reviews with the word ${term}:`, filteredReviews);
       return filteredReviews;
     }
   }
@@ -117,7 +116,6 @@ class ReviewService extends React.Component {
         currentTier: tier,
         displayedReviews: filteredReviews.slice(0, 12)
       });
-      // console.log(`Reviews with ${tier} stars:`, filteredReviews);
       return filteredReviews;
     }
   }
