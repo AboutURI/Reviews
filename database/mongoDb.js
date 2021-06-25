@@ -49,8 +49,8 @@ const getReviewsForOneCourse = (id) => {
 };
 
 const getOneReview = (id) => {
-
-}
+  return Review.find({reviewId: id}).exec();
+};
 
 const getAllRatings = () => {
   return Rating.find().exec();
@@ -162,5 +162,6 @@ module.exports = {
   getAllRatings, // used in server/index.js and s3.js
   getRatingForOneCourse, // used in server/index.js
   addReviewAndUpdateRating, // used in dataGenerators.js
-  resetRating // used in dataGenerators.js
+  resetRating, // used in dataGenerators.js
+  getOneReview
 };
