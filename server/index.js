@@ -57,7 +57,14 @@ app.get('/reviews/item', (req, res) => {
 // get single rating
 app.get('/reviews/:id', (req, res) => {
   const id = req.params.id;
-
+  mongoDb.getOneReview(id)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
 });
 
 app.listen(port, () => {
