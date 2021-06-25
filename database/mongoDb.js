@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const autoIncrement = require('mongoose-sequence')(mongoose);
 mongoose.connect('mongodb://localhost/review-service', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const mongoDb = mongoose.connection;
@@ -9,6 +9,7 @@ mongoDb.once('open', () => {
 });
 
 const reviewSchema = new mongoose.Schema({ // 1 -> many: course_id -> reviews
+  reviewId: Number,
   courseId: Number,
   reviewer: Object, // {“reviewerId”: Number, “name”: String, “picture”: String, “coursesTaken”: Number, “reviews”: Number}
   rating: Number,
@@ -17,6 +18,8 @@ const reviewSchema = new mongoose.Schema({ // 1 -> many: course_id -> reviews
   helpful: Number,
   reported: Boolean
 }, { versionKey: false });
+
+reviewSchema.plugin(autoIncrement, {inc_field: 'reviewId'});
 
 const ratingSchema = new mongoose.Schema({ // 1 <-> 1: course_id <-> rating
   courseId: Number,
@@ -44,6 +47,10 @@ const getAllReviews = () => {
 const getReviewsForOneCourse = (id) => {
   return Review.find({courseId: id}).exec();
 };
+
+const getOneReview = (id) => {
+
+}
 
 const getAllRatings = () => {
   return Rating.find().exec();

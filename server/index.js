@@ -54,6 +54,12 @@ app.get('/reviews/item', (req, res) => {
   }
 });
 
+// get single rating
+app.get('/reviews/:id', (req, res) => {
+  const id = req.params.id;
+
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://${host}:${port}`);
 });
