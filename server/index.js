@@ -5,6 +5,7 @@ const shrinkRay = require('shrink-ray-current');
 const mongoDb = require('../database/mongoDb.js');
 const app = express();
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 dotenv.config();
 
 const port = process.env.PORT || 2712;
@@ -13,6 +14,7 @@ const host = process.env.HOST || 'localhost';
 app.use(cors());
 app.use(shrinkRay());
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+app.use(bodyParser.json());
 
 // get reviews and ratings for all courses
 app.get('/reviews', (req, res) => {
@@ -58,6 +60,18 @@ app.get('/reviews/item', (req, res) => {
 app.get('/reviews/:id', (req, res) => {
   const id = req.params.id;
   mongoDb.getOneReview(id)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
+});
+
+// create single rating
+app.post('/reviews', (req, res) => {
+  mongoDb.createOneReview(req.body.review)
     .then((result) => {
       res.send(result);
     })
