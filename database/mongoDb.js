@@ -60,6 +60,10 @@ const deleteOneReview = (id) => {
   return Review.findOneAndRemove({reviewId: id});
 };
 
+const updateOneReview = (id, newData) => {
+  return Review.findOneAndUpdate({reviewId: id}, newData);
+};
+
 const getAllRatings = () => {
   return Rating.find().exec();
 };
@@ -173,5 +177,6 @@ module.exports = {
   resetRating, // used in dataGenerators.js
   getOneReview,
   createOneReview,
-  deleteOneReview
+  deleteOneReview,
+  updateOneReview
 };

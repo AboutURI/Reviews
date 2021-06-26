@@ -94,7 +94,14 @@ app.delete('/review/:id', (req, res) => {
 
 //update single review
 app.put('/review/:id', (req, res) => {
-
+  mongoDb.updateOneReview(req.params.id, req.body.review)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
 });
 
 app.listen(port, () => {
