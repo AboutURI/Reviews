@@ -58,8 +58,7 @@ app.get('/reviews/item', (req, res) => {
 
 // get single rating
 app.get('/reviews/:id', (req, res) => {
-  const id = req.params.id;
-  mongoDb.getOneReview(id)
+  mongoDb.getOneReview(req.params.id)
     .then((result) => {
       res.send(result);
     })
@@ -72,6 +71,18 @@ app.get('/reviews/:id', (req, res) => {
 // create single rating
 app.post('/reviews', (req, res) => {
   mongoDb.createOneReview(req.body.review)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
+});
+
+//delete single rating
+app.delete('/reviews/:id', (req, res) => {
+  mongoDb.deleteOneReview(req.params.id)
     .then((result) => {
       res.send(result);
     })
