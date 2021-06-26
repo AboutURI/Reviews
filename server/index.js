@@ -32,8 +32,8 @@ app.get('/reviews', (req, res) => {
 });
 
 // get reviews and ratings for one course
-app.get('/reviews/item', (req, res) => {
-  let courseId = Number(req.query.courseId);
+app.get('/course/:id/reviews', (req, res) => {
+  let courseId = Number(req.params.id);
   let reviews;
   let rating;
   if (Number.isInteger(courseId) && courseId >= 1 && courseId <= 100) {
@@ -56,8 +56,8 @@ app.get('/reviews/item', (req, res) => {
   }
 });
 
-// get single rating
-app.get('/reviews/:id', (req, res) => {
+// get single review
+app.get('/review/:id', (req, res) => {
   mongoDb.getOneReview(req.params.id)
     .then((result) => {
       res.send(result);
@@ -68,8 +68,8 @@ app.get('/reviews/:id', (req, res) => {
     });
 });
 
-// create single rating
-app.post('/reviews', (req, res) => {
+// create single review
+app.post('/review', (req, res) => {
   mongoDb.createOneReview(req.body.review)
     .then((result) => {
       res.send(result);
@@ -80,8 +80,8 @@ app.post('/reviews', (req, res) => {
     });
 });
 
-//delete single rating
-app.delete('/reviews/:id', (req, res) => {
+//delete single review
+app.delete('/review/:id', (req, res) => {
   mongoDb.deleteOneReview(req.params.id)
     .then((result) => {
       res.send(result);
@@ -90,6 +90,11 @@ app.delete('/reviews/:id', (req, res) => {
       res.status(500);
       res.send(err);
     });
+});
+
+//update single review
+app.put('/review/:id', (req, res) => {
+
 });
 
 app.listen(port, () => {
