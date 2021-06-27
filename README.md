@@ -13,6 +13,7 @@ Reviews for Udemy Clone (Front End Capstone project by Hack Reactor RPT27 team C
 2. [Technologies](#technologies)
 3. [Requirements](#requirements)
 4. [Installation](#installation)
+5. [API](#api)
 
 ## Description
 This review service is a fullstack application for an item page modeled after the [Udemy](www.udemy.com) front end. It includes a database for storing reviews and ratings for 100 courses, an algorithm to generate random custom data, and a server/API that handles requests from other services. It replicates all the front-end logic for rendering and filtering reviews that is found on the Udemy web page.
@@ -87,3 +88,63 @@ npm start
 ```sh
 npm test
 ```
+## API
+
+Rest API runs at `http://localhost:2712` with the following routes:
+*all bodies should be formatted as json data*
+
+- GET `/reviews`
+  * returns all ratings and reviews in the entire db
+
+- GET `/course/{id}/reviews`
+  * returns ratings and reviews for a single course
+  ```
+  {
+  courseId : int,
+  ratings: {},
+  reviews: []
+  }
+  ```
+
+- GET `/review/{id}`
+  * returns a single review
+  ```
+    {
+        "_id": "60d639df264ac81c7ab3ca80",
+        "courseId": 1,
+        "reviewer": {
+            "reviewerId": 420446,
+            "name": "Harold Cartwright",
+            "picture": "rgb(115, 114, 108)",
+            "coursesTaken": 37,
+            "reviews": 35
+        },
+        "rating": 5,
+        "comment": "Recusandae non incidunt non sit. Repudiandae iusto deleniti ducimus nihil sunt aut est odio.",
+        "createdAt": "2020-01-08T20:06:09.365Z",
+        "helpful": 5,
+        "reported": false,
+        "reviewId": 8
+    }
+  ```
+
+  - POST `/review`
+  * creates a new review
+  * returns the created review on success
+
+- DELETE `/review/{id}`
+  * deletes the review at id
+  * returns the deleted review on success
+
+- PUT `/review/{id}`
+  * edits a single review
+  * returns the original (unedited review)
+  * you may supply only the fields you would like to update
+  ie:
+  ```
+  {
+    "commment" : "this is a new comment"
+  }
+  ```
+  the rest of the data would remain intact.
+
