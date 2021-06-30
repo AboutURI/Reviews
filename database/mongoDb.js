@@ -61,7 +61,7 @@ const deleteOneReview = (id) => {
 };
 
 const updateOneReview = (id, newData) => {
-  return Review.findOneAndUpdate({reviewId: id}, newData);
+  return Review.findOneAndUpdate({reviewId: id}, newData, {upsert: false});
 };
 
 const getAllRatings = () => {

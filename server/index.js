@@ -96,11 +96,13 @@ app.delete('/review/:id', (req, res) => {
 app.put('/review/:id', (req, res) => {
   mongoDb.updateOneReview(req.params.id, req.body.review)
     .then((result) => {
+      if (result === null) {
+        throw new Error(`No Review exists for id ${req.params.id}`);
+      }
       res.send(result);
     })
     .catch((err) => {
-      res.status(500);
-      res.send(err);
+      res.status(500).send(err.message);
     });
 });
 
