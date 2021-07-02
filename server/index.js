@@ -117,6 +117,17 @@ app.post('/reviewer', (req, res) => {
     });
 });
 
+//create single rating
+app.post('/rating', (req, res) => {
+  db.createOneRating(req.body.rating)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://${host}:${port}`);
 });
