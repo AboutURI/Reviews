@@ -9,7 +9,8 @@
     "build": "webpack --config webpack.config.js --mode development --watch",
     "prod": "webpack --config webpack.config.js --mode production",
     "seedMongo": "node database/dataGenerators.js",
-    "mongoToS3": "node database/s3.js"
+    "mongoToS3": "node database/s3.js",
+    "runPsql": "node database/psqlDB.js"
   },
   "repository": {
     "type": "git",
