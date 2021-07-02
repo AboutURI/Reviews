@@ -13,7 +13,7 @@ const Review = sequelize.define('Review', {
     type: DataTypes.INTEGER
   },
   rating: {
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(11)
   },
   comment: {
     type: DataTypes.STRING(1000)
@@ -46,13 +46,13 @@ const Rating = sequelize.define('Rating', {
     type: DataTypes.INTEGER
   },
   overallRating: { //average
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(11)
   },
   totalRatings: {
     type: DataTypes.INTEGER
   },
   totalStars: {
-    type: DataTypes.INTEGER
+    type: DataTypes.FLOAT(11)
   },
   '5': {
     type: DataTypes.INTEGER
@@ -90,20 +90,16 @@ Review.belongsTo(Reviewer, {
   }
 });
 
-sequelize.sync({force: true})
-  .then(() => {
-    console.log('synced DBS successfully');
-  })
-  .catch((err) => {
-    console.log('ERR: ', err);
-  });
+// sequelize.sync({force: true})
+//   .then(() => {
+//     console.log('synced DBS successfully');
+//   })
+//   .catch((err) => {
+//     console.log('ERR: ', err);
+//   });
 
 module.exports.createOneReview = (review) => {
   return Review.create(review);
-};
-
-module.exports.createOneReviewer = (reviewer) => {
-  return Reviewer.create(reviewer);
 };
 
 module.exports.getOneReview = (id) => {
@@ -111,4 +107,12 @@ module.exports.getOneReview = (id) => {
     where: {id},
     include: Reviewer
   });
+};
+
+module.exports.createOneReviewer = (reviewer) => {
+  return Reviewer.create(reviewer);
+};
+
+module.exports.createOneRating = (rating) => {
+  return Rating.create(rating);
 };
