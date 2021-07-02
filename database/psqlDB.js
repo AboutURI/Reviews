@@ -83,6 +83,13 @@ const Rating = sequelize.define('Rating', {
   }
 });
 
+
+Review.belongsTo(Reviewer, {
+  foreignKey: {
+    name: 'reviewerId'
+  }
+});
+
 sequelize.sync({force: true})
   .then(() => {
     console.log('synced DBS successfully');
@@ -90,3 +97,18 @@ sequelize.sync({force: true})
   .catch((err) => {
     console.log('ERR: ', err);
   });
+
+module.exports.createOneReview = (review) => {
+  return Review.create(review);
+};
+
+module.exports.createOneReviewer = (reviewer) => {
+  return Reviewer.create(reviewer);
+};
+
+module.exports.getOneReview = (id) => {
+  return Review.findOne({
+    where: {id},
+    include: Reviewer
+  });
+};

@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const shrinkRay = require('shrink-ray-current');
-const mongoDb = require('../database/mongoDb.js');
+const db = require('../database/psqlDB.js');
 const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
@@ -20,10 +20,10 @@ app.use(bodyParser.json());
 app.get('/reviews', (req, res) => {
   let reviews;
   let ratings;
-  mongoDb.getAllReviews()
+  db.getAllReviews()
     .then((allReviews) => {
       reviews = allReviews;
-      mongoDb.getAllRatings()
+      db.getAllRatings()
         .then((allRatings) => {
           ratings = allRatings;
           res.status(200).json({allReviews: reviews, allRatings: ratings});
@@ -37,10 +37,10 @@ app.get('/course/:id/reviews', (req, res) => {
   let reviews;
   let rating;
   if (Number.isInteger(courseId) && courseId >= 1 && courseId <= 100) {
-    mongoDb.getReviewsForOneCourse(courseId)
+    db.getReviewsForOneCourse(courseId)
       .then((results) => {
         reviews = results;
-        mongoDb.getRatingForOneCourse(courseId)
+        db.getRatingForOneCourse(courseId)
           .then((result) => {
             rating = result;
             let data = {
@@ -58,7 +58,7 @@ app.get('/course/:id/reviews', (req, res) => {
 
 // get single review
 app.get('/review/:id', (req, res) => {
-  mongoDb.getOneReview(req.params.id)
+  db.getOneReview(req.params.id)
     .then((result) => {
       res.send(result);
     })
@@ -70,7 +70,7 @@ app.get('/review/:id', (req, res) => {
 
 // create single review
 app.post('/review', (req, res) => {
-  mongoDb.createOneReview(req.body.review)
+  db.createOneReview(req.body.review)
     .then((result) => {
       res.send(result);
     })
@@ -82,7 +82,7 @@ app.post('/review', (req, res) => {
 
 //delete single review
 app.delete('/review/:id', (req, res) => {
-  mongoDb.deleteOneReview(req.params.id)
+  db.deleteOneReview(req.params.id)
     .then((result) => {
       res.send(result);
     })
@@ -94,7 +94,7 @@ app.delete('/review/:id', (req, res) => {
 
 //update single review
 app.put('/review/:id', (req, res) => {
-  mongoDb.updateOneReview(req.params.id, req.body.review)
+  db.updateOneReview(req.params.id, req.body.review)
     .then((result) => {
       if (result === null) {
         throw new Error(`No Review exists for id ${req.params.id}`);
@@ -103,6 +103,17 @@ app.put('/review/:id', (req, res) => {
     })
     .catch((err) => {
       res.status(500).send(err.message);
+    });
+});
+
+//create single reviewer
+app.post('/reviewer', (req, res) => {
+  db.createOneReviewer(req.body.reviewer)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
     });
 });
 
