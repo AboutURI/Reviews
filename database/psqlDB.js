@@ -2,7 +2,8 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize( 'udemy', 'root', 'root', {
   host: 'localhost',
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false
 });
 
 const Review = sequelize.define('Review', {
