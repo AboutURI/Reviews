@@ -36,25 +36,27 @@ app.get('/course/:id/reviews', (req, res) => {
   let courseId = Number(req.params.id);
   let reviews;
   let rating;
-  if (Number.isInteger(courseId) && courseId >= 1 && courseId <= 100) {
+  if (Number.isInteger(courseId) && courseId >= 1 && courseId <= 10000000) {
     db.getReviewsForOneCourse(courseId)
       .then((results) => {
         reviews = results;
-        db.getRatingForOneCourse(courseId)
-          .then((result) => {
-            rating = result;
-            let data = {
-              courseId: courseId,
-              ratings: rating,
-              reviews: reviews
-            };
-            res.status(200).json(data);
-          });
+        return db.getRatingForOneCourse(courseId);
+      })
+      .then((result) => {
+        rating = result;
+        let data = {
+          courseId: courseId,
+          ratings: rating[0],
+          reviews: reviews
+        };
+        res.status(200).json(data);
       });
   } else {
     res.json('No course selected');
   }
 });
+
+
 
 // get single review
 app.get('/review/:id', (req, res) => {

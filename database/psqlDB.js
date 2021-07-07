@@ -87,6 +87,7 @@ const Rating = sequelize.define('Rating', {
 
 Review.belongsTo(Reviewer, {
   foreignKey: {
+    as: 'reviewer',
     name: 'reviewerId'
   }
 });
