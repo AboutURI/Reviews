@@ -56,15 +56,15 @@ class Review extends React.Component {
         style={this.props.reviewNumber === this.props.displayedReviews.length ? {borderBottomWidth: '0'} : null}>
         <ReviewerAvatar className="reviewerAvatar">
           {/* if the reviewer has no avatar, the default avatar consists of a color background (saved in database) and the reviewer's initials */}
-          {this.props.review.reviewer.picture.slice(0, 3) === 'rgb' ?
-            <ReviewerInitials className="reviewerInitials" style={{backgroundColor: this.props.review.reviewer.picture}}>{this.props.review.reviewer.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}</ReviewerInitials> :
-            <ReviewerPicture className="reviewerPicture" src={this.props.review.reviewer.picture}/>}
+          {this.props.review.Reviewer.picture.slice(0, 3) === 'rgb' ?
+            <ReviewerInitials className="reviewerInitials" style={{backgroundColor: this.props.review.Reviewer.picture}}>{this.props.review.Reviewer.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}</ReviewerInitials> :
+            <ReviewerPicture className="reviewerPicture" src={this.props.review.Reviewer.picture}/>}
         </ReviewerAvatar>
         <ReviewContent>
           <ReviewerName className="reviewerName" style={this.state.reported ? {color: 'rgb(210, 0, 0)'} : null}>
             {this.state.reported ?
-              this.props.review.reviewer.name + ' USER REPORTED' :
-              this.props.review.reviewer.name}
+              this.props.review.Reviewer.name + ' USER REPORTED' :
+              this.props.review.Reviewer.name}
           </ReviewerName>
           <Rating rating={this.props.review.rating} createdAt={this.props.review.createdAt}/>
           <Comment review={this.props.review} currentSearchTerm={this.props.currentSearchTerm} commentHeight={this.state.commentHeight} handleClick={this.handleClick}/>
