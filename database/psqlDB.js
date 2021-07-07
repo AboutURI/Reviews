@@ -103,10 +103,27 @@ module.exports.createOneReview = (review) => {
   return Review.create(review);
 };
 
+module.exports.bulkAddReviews = (reviews) => {
+  return Review.bulkCreate(reviews);
+};
+
 module.exports.getOneReview = (id) => {
   return Review.findOne({
     where: {id},
     include: Reviewer
+  });
+};
+
+module.exports.getReviewsForOneCourse = (courseId) => {
+  return Review.findAll({
+    where: {courseId},
+    include: Reviewer
+  });
+};
+
+module.exports.getRatingForOneCourse = (courseId) => {
+  return Rating.findAll({
+    where: {courseId}
   });
 };
 
