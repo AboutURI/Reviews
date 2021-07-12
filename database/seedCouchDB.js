@@ -1,5 +1,5 @@
+const db = require('./couchbaseDB.js');
 const faker = require('faker');
-const db = require('./psqlDB.js');
 
 const randomIntBetween = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -29,20 +29,28 @@ const generateOneRating = (id) => {
   return rating;
 };
 
-const generateAndInsertRatings = async (ammount) => {
-  for (let i = 1; i <= ammount; i++) {
-    try {
-      await db.createOneRating(generateOneRating(i));
-    } catch (err) {
-      console.log('ERROR: ', err);
-      break;
+const generateAndInsertRatings = (amount) => {
+  return new Promise(async (resolve, reject) => {
+    let data = [];
+    for (let i = 1; i <= amount; i++) {
+      data.push(generateOneRating(i));
+      if (i % 10000 === 0) {
+        try {
+          await db.bulkAddRatings(data);
+          data = [];
+          console.log(`ratings inserted to id ${i}`);
+        } catch (err) {
+          console.log('ERROR: ', err);
+          break;
+          reject(err);
+        }
+      }
+      if (i === amount) {
+        resolve('successfully seeded Ratings!');
+      }
     }
-    console.log(`successfully added review ${i}`);
-  }
+  });
 };
-
-//generateAndInsertRatings(10000000); => complete
-
 
 const generateUserImage = () => {
   const colors = [
@@ -69,20 +77,6 @@ const generateOneReviewer = () => {
   };
 };
 
-const generateAndInsertReviewers = async (ammount) => {
-  for (let i = 1; i <= ammount; i++) {
-    try {
-      await db.createOneReviewer(generateOneReviewer());
-    } catch (err) {
-      console.log('ERROR: ', err);
-      break;
-    }
-    console.log(`successfully addded reviewer ${i}`);
-  }
-};
-
-//generateAndInsertReviewers(1000000); => complete
-
 const generateStarRating = () => {
   const highRating = [5, 4.5, 4];
   const lowRating = [3.5, 3, 2.5, 2, 1.5, 1];
@@ -106,12 +100,12 @@ const generateOneReview = (courseId) => {
 
   return {
     courseId,
-    reviewerId: randomIntBetween(1, 1000000),
+    Reviewer: generateOneReviewer(),
     rating: generateStarRating(),
     comment: faker.lorem.words(100).substr(0, randomIntBetween(150, 850)),
     createdAt: randomDate,
     helpful: randomIntBetween(0, 50),
-    reported: false
+    reported: false,
   };
 };
 
@@ -130,22 +124,39 @@ const performInsert = () => {
   });
 };
 
-const generateAndInsertReviews = async (ammountOfCourses) => {
-  for (let i = 1; i <= ammountOfCourses; i++) {
-    const ammountOfReviews = randomIntBetween(5, 15);
-    for (let j = 1; j <= ammountOfReviews; j++) {
-      reviewStore.push(generateOneReview(i));
-    }
-    if (i % 10000 === 0) {
-      try {
-        await performInsert();
-      } catch (err) {
-        console.log('ERROR: ', err);
-        break;
+const generateAndInsertReviews = (amountOfCourses) => {
+  return new Promise(async (resolve, reject) => {
+    for (let i = 1; i <= amountOfCourses; i++) {
+      const amountOfReviews = randomIntBetween(5, 15);
+      for (let j = 1; j <= amountOfReviews; j++) {
+        reviewStore.push(generateOneReview(i));
       }
-      console.log(`successfully created reviews for course ${i}`);
+      if (i % 1000 === 0) {
+        try {
+          await performInsert();
+          console.log(`successfully created reviews for course ${i}`);
+        } catch (err) {
+          console.log('ERROR: ', err);
+          break;
+          reject(err);
+        }
+      }
+      if (i === amountOfCourses) {
+        resolve('successfully seeded reviews!');
+      }
     }
-  }
+  });
 };
 
-generateAndInsertReviews(100000);
+generateAndInsertRatings(10000000)
+  .then((res) => {
+    console.log(res);
+    return generateAndInsertReviews(10000000);
+  })
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log('oh no, there was an error, you suck!: ', err);
+  });
+
