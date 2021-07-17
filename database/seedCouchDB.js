@@ -124,21 +124,45 @@ const performInsert = () => {
   });
 };
 
-const generateAndInsertReviews = (amountOfCourses) => {
+let attempts = 0;
+
+const backoff = (attempt, func) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      func()
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    }, attempt * 2000);
+  });
+};
+
+const generateAndInsertReviews = (start, amountOfCourses) => {
   return new Promise(async (resolve, reject) => {
-    for (let i = 1; i <= amountOfCourses; i++) {
+    for (let i = start; i <= amountOfCourses; i++) {
       const amountOfReviews = randomIntBetween(5, 15);
       for (let j = 1; j <= amountOfReviews; j++) {
         reviewStore.push(generateOneReview(i));
       }
-      if (i % 1000 === 0) {
+      if (i % 500 === 0) {
         try {
           await performInsert();
           console.log(`successfully created reviews for course ${i}`);
         } catch (err) {
-          console.log('ERROR: ', err);
-          break;
-          reject(err);
+          console.log('ERROR -- backing off');
+          let attempts = 1;
+          while (attempts < 5) {
+            try {
+              await backoff(attempts, performInsert);
+              break;
+            } catch (err) {
+              console.log(`backoff attempt ${attempts}`);
+              attempts++;
+            }
+          }
         }
       }
       if (i === amountOfCourses) {
@@ -148,15 +172,16 @@ const generateAndInsertReviews = (amountOfCourses) => {
   });
 };
 
-generateAndInsertRatings(10000000)
-  .then((res) => {
-    console.log(res);
-    return generateAndInsertReviews(10000000);
-  })
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((err) => {
-    console.log('oh no, there was an error, you suck!: ', err);
-  });
+// generateAndInsertRatings(10000000)
+//   .then((res) => {
+//     console.log(res);
+//     return generateAndInsertReviews(10000000);
+//   })
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((err) => {
+//     console.log('oh no, there was an error, you suck!: ', err);
+//   });
 
+generateAndInsertReviews(2207500, 10000000);
