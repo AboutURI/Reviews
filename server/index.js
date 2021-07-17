@@ -51,6 +51,9 @@ app.get('/course/:id/reviews', (req, res) => {
           reviews: reviews
         };
         res.status(200).json(data);
+      })
+      .catch(err => {
+        res.status(500).send(err);
       });
   } else {
     res.json('No course selected');

@@ -13,7 +13,8 @@
     "runPsql": "node database/psqlDB.js",
     "cdb": "node database/couchbaseDB.js",
     "seedPsqlDB": "node database/seedPsqlDB.js",
-    "seedCouchDB": "node database/seedCouchDB.js"
+    "seedCouchDB": "node database/seedCouchDB.js",
+    "loadTestGet": "artillery run test/loadTests/loadTest_getPageData.yml"
   },
   "repository": {
     "type": "git",
