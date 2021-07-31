@@ -23,9 +23,10 @@ scenarios:
       - post:
           url: "/review"
           json:
-            courseId: 5000
-            reviewerId: 100
-            rating: 4
-            comment: 'this is a sample post review'
-            helpful: 100
-            reported: false
+            review:
+              courseId: 5000
+              reviewerId: 100
+              rating: 4
+              comment: 'this is a sample post review'
+              helpful: 100
+              reported: false
