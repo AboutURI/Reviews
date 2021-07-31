@@ -14,7 +14,8 @@
     "cdb": "node database/couchbaseDB.js",
     "seedPsqlDB": "node database/seedPsqlDB.js",
     "seedCouchDB": "node database/seedCouchDB.js",
-    "loadTestGet": "artillery run test/loadTests/loadTest_getPageData.yml"
+    "loadTestGet": "artillery run test/loadTests/loadTest_getPageData.yml",
+    "loadTestPost": "artillery run test/loadTests/loadTest_postReview.yml"
   },
   "repository": {
     "type": "git",
@@ -63,6 +64,7 @@
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "express-static-gzip": "^2.1.1",
     "jest": "^26.6.3",
+    "k6": "0.0.0",
     "mongoose-sequence": "^5.3.1",
     "puppeteer": "^10.1.0",
     "ts-jest": "^26.5.6",

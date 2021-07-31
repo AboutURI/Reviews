@@ -18,9 +18,14 @@ config:
       name: ramp up 3 (1000 req per sec)
 
 scenarios:
-  - name: load a page
+  - name: post a review
     flow:
-      - get:
-          url: "/course/{{ $randomNumber(9000000, 10000000) }}/reviews"
-
-
+      - post:
+          url: "/review"
+          json:
+            courseId: 5000
+            reviewerId: 100
+            rating: 4
+            comment: 'this is a sample post review'
+            helpful: 100
+            reported: false

@@ -1,5 +1,5 @@
+//require('newrelic');
 const { Sequelize, DataTypes } = require('sequelize');
-require('newrelic');
 
 const sequelize = new Sequelize( 'udemy', 'root', 'root', {
   host: 'localhost',

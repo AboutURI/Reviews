@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -7,7 +8,6 @@ const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 dotenv.config();
-require('newrelic');
 
 const port = process.env.PORT || 2712;
 const host = process.env.HOST || 'localhost';

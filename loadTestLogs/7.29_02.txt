@@ -1,0 +1,35 @@
+
+          /\      |‾‾| /‾‾/   /‾‾/
+     /\  /  \     |  |/  /   /  /
+    /  \/    \    |     (   /   ‾‾\
+   /          \   |  |\  \ |  (‾)  |
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: ./test/loadTests/k6load.js
+     output: -
+
+  scenarios: (100.00%) 1 scenario, 50 max VUs, 3m30s max duration (incl. graceful stop):
+           * constant_request_rate: 100.00 iterations/s for 3m0s (maxVUs: 20-50, gracefulStop: 30s)
+
+
+running (3m00.0s), 00/25 VUs, 17996 complete and 0 interrupted iterations
+constant_request_rate ✓ [ 100% ] 00/25 VUs  3m0s  100 iters/s
+
+     data_received..................: 168 MB 933 kB/s
+     data_sent......................: 1.8 MB 10 kB/s
+     dropped_iterations.............: 5      0.027776/s
+     http_req_blocked...............: avg=4.33µs  min=2µs    med=4µs     max=680µs    p(90)=5µs     p(95)=6µs
+     http_req_connecting............: avg=226ns   min=0s     med=0s      max=240µs    p(90)=0s      p(95)=0s
+     http_req_duration..............: avg=13.09ms min=4.88ms med=12.05ms max=309.56ms p(90)=15.09ms p(95)=15.94ms
+       { expected_response:true }...: avg=13.07ms min=8.06ms med=12.05ms max=309.56ms p(90)=15.09ms p(95)=15.93ms
+     http_req_failed................: 0.05%  ✓ 10        ✗ 17986
+     http_req_receiving.............: avg=62.64µs min=29µs   med=58µs    max=2.61ms   p(90)=85µs    p(95)=95µs
+     http_req_sending...............: avg=18.97µs min=9µs    med=18µs    max=5.52ms   p(90)=24µs    p(95)=27µs
+     http_req_tls_handshaking.......: avg=0s      min=0s     med=0s      max=0s       p(90)=0s      p(95)=0s
+     http_req_waiting...............: avg=13.01ms min=4.81ms med=11.96ms max=309.45ms p(90)=15ms    p(95)=15.85ms
+     http_reqs......................: 17996  99.970681/s
+     iteration_duration.............: avg=13.2ms  min=4.99ms med=12.16ms max=309.69ms p(90)=15.22ms p(95)=16.08ms
+     iterations.....................: 17996  99.970681/s
+     vus............................: 25     min=20      max=25
+     vus_max........................: 25     min=20      max=25
