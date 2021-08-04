@@ -93,14 +93,6 @@ Review.belongsTo(Reviewer, {
   }
 });
 
-// sequelize.sync({force: true})
-//   .then(() => {
-//     console.log('synced DBS successfully');
-//   })
-//   .catch((err) => {
-//     console.log('ERR: ', err);
-//   });
-
 module.exports.createOneReview = (review) => {
   return Review.create(review);
 };
@@ -121,6 +113,21 @@ module.exports.getReviewsForOneCourse = (courseId) => {
     where: {courseId},
     include: Reviewer
   });
+  // return new Promise((resolve, reject) => {
+  //   Review.findAll({where: {courseId}})
+  //     .then((reviews) => {
+  //       reviews.forEach((review, index) => {
+  //         Reviewer.findOne({where: {id: review.reviewerId}});
+  //         review.Reviewer = reviewer;
+  //         if (index === reviews.length - 1) {
+  //           resolve(reviews);
+  //         }
+  //       });
+  //     })
+  //     .catch(err => {
+  //       reject(err);
+  //     });
+  // });
 };
 
 module.exports.getRatingForOneCourse = (courseId) => {
