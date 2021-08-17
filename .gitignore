@@ -18,4 +18,5 @@ tbd.js
 WebSequence.png
 newrelic.js
 *.log
+*.sql
 /images

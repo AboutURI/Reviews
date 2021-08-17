@@ -1,11 +1,18 @@
 //require('newrelic');
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize( 'udemy', 'root', 'root', {
-  host: 'localhost',
+const sequelize = new Sequelize( 'udemy', 'cmedlin', '1x2x@ec2', {
+  host: '127.0.0.1',
+  port: 5433,
   dialect: 'postgres',
   logging: false
 });
+
+// const sequelize = new Sequelize( 'udemy', 'root', 'root', {
+//   host: 'localhost',
+//   dialect: 'postgres',
+//   logging: false
+// });
 
 const Review = sequelize.define('Review', {
   courseId: {
@@ -93,6 +100,14 @@ Review.belongsTo(Reviewer, {
   }
 });
 
+sequelize.sync()
+  .then((result) => {
+    console.log('synced successfully!');
+  })
+  .catch((err) => {
+    console.log('synching error: ', err);
+  });
+
 module.exports.createOneReview = (review) => {
   return Review.create(review);
 };
@@ -132,7 +147,7 @@ module.exports.getReviewsForOneCourse = (courseId) => {
 
 module.exports.getRatingForOneCourse = (courseId) => {
   return Rating.findAll({
-    where: {courseId}
+    where: {id: courseId}
   });
 };
 
