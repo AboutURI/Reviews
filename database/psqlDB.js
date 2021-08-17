@@ -1,12 +1,30 @@
+<<<<<<< HEAD
 const { Sequelize, DataTypes } = require('sequelize');
 require('newrelic');
 
 const sequelize = new Sequelize( 'udemy', 'root', 'root', {
   host: 'localhost',
+=======
+//require('newrelic');
+const { Sequelize, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize( 'udemy', 'cmedlin', '1x2x@ec2', {
+  host: '127.0.0.1',
+  port: 5433,
+>>>>>>> load
   dialect: 'postgres',
   logging: false
 });
 
+<<<<<<< HEAD
+=======
+// const sequelize = new Sequelize( 'udemy', 'root', 'root', {
+//   host: 'localhost',
+//   dialect: 'postgres',
+//   logging: false
+// });
+
+>>>>>>> load
 const Review = sequelize.define('Review', {
   courseId: {
     type: DataTypes.INTEGER
@@ -93,6 +111,7 @@ Review.belongsTo(Reviewer, {
   }
 });
 
+<<<<<<< HEAD
 // sequelize.sync({force: true})
 //   .then(() => {
 //     console.log('synced DBS successfully');
@@ -100,6 +119,15 @@ Review.belongsTo(Reviewer, {
 //   .catch((err) => {
 //     console.log('ERR: ', err);
 //   });
+=======
+sequelize.sync()
+  .then((result) => {
+    console.log('synced successfully!');
+  })
+  .catch((err) => {
+    console.log('synching error: ', err);
+  });
+>>>>>>> load
 
 module.exports.createOneReview = (review) => {
   return Review.create(review);
@@ -121,11 +149,33 @@ module.exports.getReviewsForOneCourse = (courseId) => {
     where: {courseId},
     include: Reviewer
   });
+<<<<<<< HEAD
+=======
+  // return new Promise((resolve, reject) => {
+  //   Review.findAll({where: {courseId}})
+  //     .then((reviews) => {
+  //       reviews.forEach((review, index) => {
+  //         Reviewer.findOne({where: {id: review.reviewerId}});
+  //         review.Reviewer = reviewer;
+  //         if (index === reviews.length - 1) {
+  //           resolve(reviews);
+  //         }
+  //       });
+  //     })
+  //     .catch(err => {
+  //       reject(err);
+  //     });
+  // });
+>>>>>>> load
 };
 
 module.exports.getRatingForOneCourse = (courseId) => {
   return Rating.findAll({
+<<<<<<< HEAD
     where: {courseId}
+=======
+    where: {id: courseId}
+>>>>>>> load
   });
 };
 

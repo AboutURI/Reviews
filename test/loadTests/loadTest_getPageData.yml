@@ -1,0 +1,26 @@
+config:
+  target: 'http://ec2-54-183-120-231.us-west-1.compute.amazonaws.com'
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      name: Warm Up (1 req per sec)
+    - duration: 10
+      arrivalRate: 1
+      rampTo: 10
+      name: ramp up 1 (10 req per sec)
+    - duration: 120
+      arrivalRate: 10
+      rampTo: 100
+      name: ramp up 2 (100 req per sec)
+    - duration: 300
+      arrivalRate: 100
+      rampTo: 1000
+      name: ramp up 3 (1000 req per sec)
+
+scenarios:
+  - name: load a page
+    flow:
+      - get:
+          url: "/course/{{ $randomNumber(9000000, 10000000) }}/reviews"
+
+

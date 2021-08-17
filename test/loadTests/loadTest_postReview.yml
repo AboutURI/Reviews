@@ -1,0 +1,32 @@
+config:
+  target: 'http://localhost:2712'
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      name: Warm Up (1 req per sec)
+    - duration: 10
+      arrivalRate: 1
+      rampTo: 10
+      name: ramp up 1 (10 req per sec)
+    - duration: 120
+      arrivalRate: 10
+      rampTo: 100
+      name: ramp up 2 (100 req per sec)
+    - duration: 300
+      arrivalRate: 100
+      rampTo: 1000
+      name: ramp up 3 (1000 req per sec)
+
+scenarios:
+  - name: post a review
+    flow:
+      - post:
+          url: "/review"
+          json:
+            review:
+              courseId: 5000
+              reviewerId: 100
+              rating: 4
+              comment: 'this is a sample post review'
+              helpful: 100
+              reported: false
